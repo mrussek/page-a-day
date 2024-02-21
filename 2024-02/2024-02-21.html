@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standup</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css">
+    <style type="text/css">
+        .body {
+            display: flex;
+            flex-direction: column;
+            max-width: 1080px;
+            height: 100vh;
+            margin-left: auto;
+            margin-right: auto;
+            justify-content: start;
+        }
+
+        .person {
+            background-color: #f0fff0;
+            padding: 1rem;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            border-radius: 1rem;
+            margin-top: 1rem;
+        }
+
+        .selected {
+            background-color: #a0afa0;
+        }
+
+        .disabled {
+            background-color: #b0b0b0;
+        }
+
+        .manager {
+            background-color: #f0f0ff;
+        }
+
+        button {
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-top: 1rem
+        }
+    </style>
+</head>
+
+<body>
+    <div class="body">
+        <div class="person">Alex</div>
+        <div class="person">Daisy</div>
+        <div class="person">Jason</div>
+        <div class="person">Kai</div>
+        <div class="person">Matthew</div>
+        <div class="person">Max</div>
+        <div class="person">Mayank</div>
+        <div class="person disabled">Mel</div>
+        <div class="person">Patrick</div>
+        <div class="person">Saif</div>
+        <div class="person">Srinath</div>
+        <div class="person">Tarjani</div>
+        <div class="person">Victor</div>
+        <div class="person manager">Bri</div>
+        <div class="person manager">Art</div>
+        <div class="person manager">Tashin</div>
+
+        <button onclick="onPress()">Next</button>
+        <button onclick="onBack()">Back</button>
+    </div>
+
+    <script type="text/javascript">
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array
+        }
+
+        const devs = shuffleArray([
+            "Alex",
+            "Daisy",
+            "Jason",
+            "Kai",
+            "Matthew",
+            "Max",
+            "Mayank",
+            "Patrick",
+            "Saif",
+            "Srinath",
+            "Tarjani",
+            "Victor",
+        ]).concat(shuffleArray(["Bri", "Art", "Tashin"]))
+        console.log(devs)
+
+        let selectedIndex = 0
+
+        function update() {
+            let selectedDev = devs[selectedIndex]
+
+            const peopleNodes = document.querySelectorAll(".person")
+
+            for (node of peopleNodes) {
+                if (node.innerHTML == selectedDev) {
+                    node.classList.add("selected")
+                }
+            }
+        }
+
+        update()
+
+        function onPress() {
+            const newIndex = selectedIndex + 1
+            for (node of document.querySelectorAll(".person")) {
+                if (node.innerHTML == devs[selectedIndex]) {
+                    node.classList.remove("selected")
+                    node.classList.add("disabled")
+                } else if (node.innerHTML == devs[newIndex]) {
+                    node.classList.add("selected")
+                }
+            }
+            selectedIndex = newIndex
+        }
+
+        function onBack() {
+            const newIndex = selectedIndex - 1
+            console.log("Back")
+            for (node of document.querySelectorAll(".person")) {
+                if (node.innerHTML == devs[selectedIndex]) {
+                    console.log("Removing selection " + devs[selectedIndex])
+                    node.classList.remove("selected")
+                } else if (node.innerHTML == devs[newIndex]) {
+                    console.log("Adding selection " + devs[newIndex])
+                    node.classList.remove("disabled")
+                    node.classList.add("selected")
+                }
+            }
+            selectedIndex = newIndex
+        }
+
+    </script>
+</body>
+
+</html>
